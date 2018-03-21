@@ -20,8 +20,7 @@ define-command -hidden fcitx-restore-state %{ %sh{
 
 define-command -docstring 'Turn off fcitx when you go back normal mode.
 Turn on fcitx when you enter insert mode,
-if it was on when you left insert mode last time.
-To use this feature correctly, you should set option \'fcitx_on\'' \
+if it was on when you left insert mode last time.' \
 setup-fcitx-auto-switch %{
 	remove-hooks global fcitx
 	hook -group fcitx global ModeChange insert:normal %{ fcitx-turn-off-with-state }

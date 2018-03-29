@@ -8,10 +8,10 @@ define-command -hidden fcitx-turn-off-with-state %{ %sh{
 	state=`fcitx-remote`
 	if [ $state -eq 2 ] ; then
 		echo 'set-option global fcitx_was_on true'
+		echo 'fcitx-turn-off'
 	else
 		echo 'set-option global fcitx_was_on false'
 	fi
-	echo 'fcitx-turn-off'
 }}
 
 define-command -hidden fcitx-restore-state %{ %sh{

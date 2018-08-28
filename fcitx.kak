@@ -1,10 +1,10 @@
 declare-option -hidden bool fcitx_was_on false
 
-define-command fcitx-turn-on %{ %sh{ fcitx-remote -o }}
+define-command fcitx-turn-on %{ nop %sh{ fcitx-remote -o }}
 
-define-command fcitx-turn-off %{ %sh{ fcitx-remote -c }}
+define-command fcitx-turn-off %{ nop %sh{ fcitx-remote -c }}
 
-define-command -hidden fcitx-turn-off-with-state %{ %sh{
+define-command -hidden fcitx-turn-off-with-state %{ evaluate-commands %sh{
 	state=`fcitx-remote`
 	if [ $state -eq 2 ] ; then
 		echo 'set-option global fcitx_was_on true'
@@ -14,8 +14,12 @@ define-command -hidden fcitx-turn-off-with-state %{ %sh{
 	fi
 }}
 
-define-command -hidden fcitx-restore-state %{ %sh{
-	[ $kak_opt_fcitx_was_on = true ] && echo 'fcitx-turn-on'
+define-command -hidden fcitx-restore-state %{ evaluate-commands %sh{
+	if [ $kak_opt_fcitx_was_on = true ] ; then
+		echo 'fcitx-turn-on'
+	else
+		echo nop
+	fi
 }}
 
 #prompt hook slow down many command.

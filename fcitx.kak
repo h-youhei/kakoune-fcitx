@@ -7,10 +7,10 @@ define-command fcitx-turn-off %{ nop %sh{ fcitx-remote -c }}
 define-command -hidden fcitx-turn-off-with-state %{ evaluate-commands %sh{
 	state=`fcitx-remote`
 	if [ $state -eq 2 ] ; then
-		echo 'set-option global fcitx_was_on true'
+		echo 'set-option buffer fcitx_was_on true'
 		echo 'fcitx-turn-off'
 	else
-		echo 'set-option global fcitx_was_on false'
+		echo 'set-option buffer fcitx_was_on false'
 	fi
 }}
 
@@ -38,3 +38,5 @@ setup-fcitx-auto-off %{
 	hook -group fcitx global ModeChange insert:normal %{ fcitx-turn-off }
 	hook -group fcitx global ModeChange prompt:normal %{ fcitx-turn-off }
 }
+
+hook global WinDisplay .* %{ set-option buffer fcitx_was_on false }
